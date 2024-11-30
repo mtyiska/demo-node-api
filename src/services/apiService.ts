@@ -1,3 +1,4 @@
+// services/apiService.ts
 export const getComments = ({
   user,
   page = 1,
