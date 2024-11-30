@@ -6,6 +6,8 @@ import { app } from "./app";
 
 dotenv.config();
 
+const version = "v1.0.0";
+
 const start = async () => {
   try {
     const port = process.env.API_PORT || 4400; // Default port 3000
