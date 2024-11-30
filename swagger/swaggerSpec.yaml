@@ -1,0 +1,150 @@
+openapi: 3.0.0
+info:
+  title: Demo API
+  version: 1.0.0
+  description: |
+    This API provides endpoints for managing and retrieving comments, threads, and replies.
+    The API supports filtering, pagination, and query parameters for enhanced functionality.
+servers:
+  - url: http://localhost:4400
+    description: Development server
+
+paths:
+  /api/comments:
+    get:
+      summary: Retrieve a list of comments
+      description: Retrieve all comments, with optional filtering by user and pagination.
+      parameters:
+        - name: user
+          in: query
+          description: Filter comments by user name.
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number for pagination.
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: Number of comments per page.
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        200:
+          description: List of comments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        text:
+                          type: string
+                        user:
+                          type: string
+                  page:
+                    type: integer
+                  totalPages:
+                    type: integer
+              example:
+                data:
+                  - id: 1
+                    text: "This is the first comment"
+                    user: "User1"
+                  - id: 2
+                    text: "This is the second comment"
+                    user: "User2"
+                page: 1
+                totalPages: 5
+        400:
+          description: Invalid query parameters
+
+  /api/threads:
+    get:
+      summary: Retrieve a list of threads
+      description: Retrieve all threads, optionally filtering by a category.
+      parameters:
+        - name: category
+          in: query
+          description: Filter threads by category.
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: List of threads
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    title:
+                      type: string
+                    category:
+                      type: string
+                    content:
+                      type: string
+              example:
+                - id: 1
+                  title: "Thread about Prometheus"
+                  category: "DevOps"
+                  content: "Discussion about Prometheus monitoring."
+                - id: 2
+                  title: "Thread about Kubernetes"
+                  category: "Cloud"
+                  content: "Discussion about Kubernetes clusters."
+        400:
+          description: Invalid query parameters
+
+  /api/replies:
+    get:
+      summary: Retrieve a list of replies
+      description: Retrieve replies for a specific thread.
+      parameters:
+        - name: threadId
+          in: query
+          description: The ID of the thread to retrieve replies for.
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of replies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    reply:
+                      type: string
+                    user:
+                      type: string
+              example:
+                - id: 1
+                  reply: "This is a reply to thread 1"
+                  user: "UserA"
+                - id: 2
+                  reply: "This is a reply to thread 1"
+                  user: "UserB"
+        400:
+          description: Missing or invalid threadId parameter
