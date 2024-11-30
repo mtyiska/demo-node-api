@@ -1,3 +1,4 @@
+// routes/apiRoutes.ts
 import express, { Request, Response } from "express";
 import { getComments, getThreads, getReplies } from "../services/apiService";
 import { validateQuery } from "../middleware/validateQuery";
