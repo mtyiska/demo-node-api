@@ -6,7 +6,7 @@ import { app } from "./app";
 
 dotenv.config();
 
-const version = "v1.0.4";
+const version = "v1.0.5";
 
 const start = async () => {
   try {
